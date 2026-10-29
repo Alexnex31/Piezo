@@ -1,0 +1,4 @@
+*.o
+/piezo
+assets/*.ogg
+PLAN.md
