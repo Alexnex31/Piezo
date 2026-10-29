@@ -1,8 +1,15 @@
 NAME	= piezo
 
 SRC	= src/main.c \
+	  src/core/app.c \
+	  src/core/options.c \
+	  src/core/input.c \
 	  src/audio/music.c \
-	  src/audio/clock.c
+	  src/audio/clock.c \
+	  src/game/metronome.c \
+	  src/render/render.c \
+	  src/render/flash.c \
+	  src/render/hud.c
 
 OBJ	= $(SRC:.c=.o)
 
