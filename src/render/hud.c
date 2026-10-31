@@ -34,34 +34,33 @@ static void draw_beat(SDL_Renderer *r, float y, const Metronome *m, double t)
 static void draw_keys(SDL_Renderer *r)
 {
     SDL_SetRenderDrawColor(r, 130, 130, 150, 255);
-    SDL_RenderDebugText(r, 10, 180, "+/-      global offset");
-    SDL_RenderDebugText(r, 10, 195, "up/down  scroll speed");
-    SDL_RenderDebugText(r, 10, 210, "esc      quit");
+    SDL_RenderDebugText(r, 10, 180, "d f j k  play");
+    SDL_RenderDebugText(r, 10, 195, "+/-      global offset");
+    SDL_RenderDebugText(r, 10, 210, "up/down  scroll speed");
+    SDL_RenderDebugText(r, 10, 225, "esc      quit");
 }
 
 void hud_draw(SDL_Renderer *r, const App *app)
 {
-    double t = app->clock.time;
+    const Game *g = &app->game;
 
     SDL_SetRenderScale(r, TEXT_SCALE, TEXT_SCALE);
     SDL_SetRenderDrawColor(r, 230, 230, 240, 255);
-    SDL_RenderDebugText(r, 10, 15, app->finished ? "PIEZO - end of song"
-                                                 : "PIEZO");
-    SDL_RenderDebugTextFormat(r, 10, 40, "raw audio : %8.3f s", app->raw_time);
-    SDL_RenderDebugTextFormat(r, 10, 55, "clock     : %8.3f s", t);
-    SDL_RenderDebugTextFormat(r, 10, 70, "drift     : %+6.1f ms",
-                              (app->raw_time - t) * 1000.0);
-    SDL_RenderDebugTextFormat(r, 10, 85, "duration  : %8.3f s",
-                              music_duration(&app->music));
-    SDL_RenderDebugTextFormat(r, 10, 105, "bpm       : %8.2f",
-                              app->metronome.bpm);
-    draw_beat(r, 120, &app->metronome, app_song_time(app));
-    SDL_RenderDebugTextFormat(r, 10, 140, "offset    : %+5.0f ms",
+    SDL_RenderDebugText(r, 10, 15, "PIEZO");
+    SDL_RenderDebugTextFormat(r, 10, 40, "score     : %07d", game_score(g));
+    SDL_RenderDebugTextFormat(r, 10, 55, "accuracy  : %6.2f %%",
+                              game_accuracy(g) * 100.0);
+    SDL_RenderDebugTextFormat(r, 10, 70, "max combo : %d", g->max_combo);
+    SDL_RenderDebugTextFormat(r, 10, 95, "bpm       : %.2f", app->metronome.bpm);
+    draw_beat(r, 110, &app->metronome, app_song_time(app));
+    SDL_RenderDebugTextFormat(r, 10, 125, "drift     : %+.1f ms",
+                              (app->raw_time - app->clock.time) * 1000.0);
+    SDL_RenderDebugTextFormat(r, 10, 145, "offset    : %+.0f ms",
                               app->global_offset * 1000.0);
-    SDL_RenderDebugTextFormat(r, 10, 155, "speed     : %5.0f px/s",
+    SDL_RenderDebugTextFormat(r, 10, 160, "speed     : %.0f px/s",
                               app->scroll_speed);
     draw_keys(r);
     SDL_SetRenderScale(r, 1.0f, 1.0f);
 
-    draw_progress(r, t, music_duration(&app->music));
+    draw_progress(r, app->clock.time, music_duration(&app->music));
 }

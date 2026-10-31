@@ -20,6 +20,7 @@ typedef struct {
 
 bool music_load(Music *m, const char *path);
 bool music_play(Music *m);
+void music_restart(Music *m);       /* back to the start, keeps playing */
 double music_raw_time(Music *m);    /* seconds, advances in steps */
 double music_duration(const Music *m);
 bool music_finished(Music *m);

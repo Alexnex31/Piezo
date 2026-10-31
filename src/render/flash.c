@@ -14,11 +14,9 @@ void flash_draw(SDL_Renderer *r, const Metronome *m, double t)
     if (beat < 0.0 || since >= FLASH_LENGTH)
         return;
     strength = (float)(1.0 - since / FLASH_LENGTH);
-    SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_BLEND);
     if ((long long)index % BEATS_PER_BAR == 0)
         SDL_SetRenderDrawColor(r, 255, 170, 60, (Uint8)(strength * 200));
     else
         SDL_SetRenderDrawColor(r, 120, 200, 255, (Uint8)(strength * 110));
     SDL_RenderFillRect(r, &screen);
-    SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_NONE);
 }

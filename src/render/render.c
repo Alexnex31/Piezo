@@ -1,7 +1,9 @@
 #include "render/render.h"
+#include "render/feedback.h"
 #include "render/flash.h"
 #include "render/hud.h"
 #include "render/playfield.h"
+#include "render/results.h"
 
 void render_frame(const App *app)
 {
@@ -10,10 +12,13 @@ void render_frame(const App *app)
 
     SDL_SetRenderDrawColor(r, 18, 18, 26, 255);
     SDL_RenderClear(r);
-    /* The clock freezes at the end: a flash caught mid-fade would stay on. */
-    if (!app->finished)
+    if (app->finished) {
+        results_draw(r, &app->game);
+    } else {
         flash_draw(r, &app->metronome, t);
-    playfield_draw(r, &app->chart, t, app->scroll_speed);
-    hud_draw(r, app);
+        playfield_draw(r, &app->game, t, app->scroll_speed);
+        feedback_draw(r, &app->game, t);
+        hud_draw(r, app);
+    }
     SDL_RenderPresent(r);
 }

@@ -16,8 +16,11 @@ make
 ./piezo assets/song.chart
 ```
 
-Keys: `+` / `-` shift the global offset by 5 ms, `Up` / `Down` change the
-scroll speed, `Esc` quits.
+Keys: `D` `F` `J` `K` play the 4 columns (same spots on any keyboard layout),
+`+` / `-` shift the global offset by 5 ms, `Up` / `Down` change the scroll
+speed, `Enter` plays again from the results screen, `Esc` quits.
+
+Timing windows: Perfect ±40 ms, Great ±80 ms, Good ±120 ms, later is a Miss.
 
 No music is included: drop an `.ogg` file into `assets/` next to its chart
 (use freely licensed music if the project is published).
@@ -52,7 +55,7 @@ ffmpeg -f lavfi -i "aevalsrc='0.8*sin(2*PI*if(lt(mod(t,2),0.5),1500,1000)*t)*lt(
 1. ~~OGG playback + sample-accurate song clock~~
 2. ~~Visual metronome synced to the BPM~~
 3. ~~Text charts + notes scrolling down 4 columns~~
-4. Hit judgement (event timestamps), score, combo
+4. ~~Hit judgement (event timestamps), score, combo~~
 5. Offset calibration screen
 
 ## License

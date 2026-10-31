@@ -8,11 +8,16 @@ SRC	= src/main.c \
 	  src/audio/clock.c \
 	  src/game/metronome.c \
 	  src/game/chart.c \
+	  src/game/judge.c \
+	  src/game/game.c \
 	  src/render/render.c \
 	  src/render/flash.c \
 	  src/render/hud.c \
 	  src/render/playfield.c \
-	  src/render/shapes.c
+	  src/render/shapes.c \
+	  src/render/text.c \
+	  src/render/feedback.c \
+	  src/render/results.c
 
 OBJ	= $(SRC:.c=.o)
 

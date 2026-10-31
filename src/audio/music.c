@@ -88,6 +88,15 @@ bool music_play(Music *m)
     return SDL_ResumeAudioStreamDevice(m->stream);
 }
 
+void music_restart(Music *m)
+{
+    /* Under the lock: the audio thread must not feed in the middle. */
+    SDL_LockAudioStream(m->stream);
+    SDL_ClearAudioStream(m->stream);
+    m->pushed = 0;
+    SDL_UnlockAudioStream(m->stream);
+}
+
 /*
  * Playback position = frames pushed - frames still queued.
  * The sound card still has its own buffer after the stream: that constant

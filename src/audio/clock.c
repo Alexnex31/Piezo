@@ -39,3 +39,10 @@ void clock_update(SongClock *c, double raw, Uint64 now_ns)
     else
         c->time += err * CORRECTION;
 }
+
+double clock_time_at(const SongClock *c, Uint64 ns)
+{
+    if (!c->started)
+        return c->time;
+    return c->time + ((Sint64)ns - (Sint64)c->last_tick_ns) / 1e9;
+}

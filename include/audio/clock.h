@@ -17,5 +17,10 @@ typedef struct {
 } SongClock;
 
 void clock_update(SongClock *c, double raw, Uint64 now_ns);
+/*
+ * Clock time at any timestamp near the last update, e.g. a key event's:
+ * the clock runs at real speed between two updates.
+ */
+double clock_time_at(const SongClock *c, Uint64 ns);
 
 #endif
