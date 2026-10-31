@@ -1,6 +1,9 @@
 #include "core/input.h"
 
 #define NUDGE_STEP 0.005    /* seconds per +/- press */
+#define SPEED_STEP 100.0    /* pixels per second per Up/Down press */
+#define SPEED_MIN  200.0
+#define SPEED_MAX  3000.0
 
 SDL_AppResult input_handle(App *app, const SDL_Event *event)
 {
@@ -15,11 +18,17 @@ SDL_AppResult input_handle(App *app, const SDL_Event *event)
     case SDLK_PLUS:
     case SDLK_EQUALS:
     case SDLK_KP_PLUS:
-        app->metronome.offset += NUDGE_STEP;
+        app->global_offset += NUDGE_STEP;
         break;
     case SDLK_MINUS:
     case SDLK_KP_MINUS:
-        app->metronome.offset -= NUDGE_STEP;
+        app->global_offset -= NUDGE_STEP;
+        break;
+    case SDLK_UP:
+        app->scroll_speed = SDL_min(app->scroll_speed + SPEED_STEP, SPEED_MAX);
+        break;
+    case SDLK_DOWN:
+        app->scroll_speed = SDL_max(app->scroll_speed - SPEED_STEP, SPEED_MIN);
         break;
     default:
         break;

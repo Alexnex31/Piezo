@@ -13,22 +13,45 @@ A small 4-key rhythm game, written in C with SDL3.
 
 ```sh
 make
-./piezo assets/song.ogg 120 250   # song, BPM, offset of the first beat in ms
+./piezo assets/song.chart
 ```
 
-BPM and offset are optional (defaults: 120 BPM, 0 ms). The screen flashes on
-every beat, brighter on the first beat of each bar.
+Keys: `+` / `-` shift the global offset by 5 ms, `Up` / `Down` change the
+scroll speed, `Esc` quits.
 
-No music is included: drop an `.ogg` file into `assets/`
+No music is included: drop an `.ogg` file into `assets/` next to its chart
 (use freely licensed music if the project is published).
 
-Keys: `+` / `-` shift the offset by 5 ms, `Esc` quits.
+## Chart format
+
+A plain text file, one entry per line, `#` starts a comment:
+
+```
+song   song.ogg    # relative to the chart's folder
+bpm    120
+offset 250         # ms, time of the first beat
+0     1            # note: time in ms, column 1 to 4
+500   2
+```
+
+Note times are absolute song times; the offset only places the beat grid.
+
+## Test track
+
+`assets/click120.chart` goes with a 3-minute click track at exactly 120 BPM
+(higher click on the first beat of each bar). Generate it with:
+
+```sh
+ffmpeg -f lavfi -i "aevalsrc='0.8*sin(2*PI*if(lt(mod(t,2),0.5),1500,1000)*t)*lt(mod(t,0.5),0.02)':s=44100:d=180" \
+       -ac 2 -c:a libvorbis assets/click120.ogg
+./piezo assets/click120.chart
+```
 
 ## Milestones
 
 1. ~~OGG playback + sample-accurate song clock~~
 2. ~~Visual metronome synced to the BPM~~
-3. Text charts + notes scrolling down 4 columns
+3. ~~Text charts + notes scrolling down 4 columns~~
 4. Hit judgement (event timestamps), score, combo
 5. Offset calibration screen
 

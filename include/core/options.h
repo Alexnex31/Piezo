@@ -3,11 +3,9 @@
 
 #include <SDL3/SDL.h>
 
-/* Command line: piezo [song.ogg] [bpm] [offset_ms] */
+/* Command line: piezo [chart] */
 typedef struct {
-    const char *song_path;
-    double bpm;
-    double offset;      /* seconds */
+    const char *chart_path;
 } Options;
 
 bool options_parse(Options *opt, int argc, char *argv[]);
