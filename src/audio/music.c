@@ -95,6 +95,12 @@ void music_restart(Music *m)
     SDL_ClearAudioStream(m->stream);
     m->pushed = 0;
     SDL_UnlockAudioStream(m->stream);
+    SDL_ResumeAudioStreamDevice(m->stream);
+}
+
+void music_pause(Music *m)
+{
+    SDL_PauseAudioStreamDevice(m->stream);
 }
 
 /*

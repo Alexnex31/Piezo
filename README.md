@@ -25,6 +25,20 @@ Timing windows: Perfect ±40 ms, Great ±80 ms, Good ±120 ms, later is a Miss.
 No music is included: drop an `.ogg` file into `assets/` next to its chart
 (use freely licensed music if the project is published).
 
+## Calibration
+
+Run this once (and again if you change headphones or speakers):
+
+```sh
+./piezo --calibrate
+```
+
+Tap any key on each click you hear, 32 times. Piezo measures how late your
+taps land and saves that as the global offset in
+`~/.local/share/piezo/config.txt`, used by every chart. After that, hitting
+on the sound gives Perfects. `+` / `-` during a game fine-tune it, and that
+is saved too.
+
 ## Chart format
 
 A plain text file, one entry per line, `#` starts a comment:
@@ -56,7 +70,7 @@ ffmpeg -f lavfi -i "aevalsrc='0.8*sin(2*PI*if(lt(mod(t,2),0.5),1500,1000)*t)*lt(
 2. ~~Visual metronome synced to the BPM~~
 3. ~~Text charts + notes scrolling down 4 columns~~
 4. ~~Hit judgement (event timestamps), score, combo~~
-5. Offset calibration screen
+5. ~~Offset calibration screen~~
 
 ## License
 

@@ -32,6 +32,23 @@ static void play_key(App *app, const SDL_KeyboardEvent *key)
         game_press(&app->game, column, app_song_time_at(app, key->timestamp));
 }
 
+/*
+ * Calibration: Enter redoes it once done, any other key is a tap, timed on
+ * the bare clock (no offset).
+ */
+static void calibration_key(App *app, const SDL_KeyboardEvent *key)
+{
+    if (key->key == SDLK_RETURN || key->key == SDLK_KP_ENTER) {
+        if (app->calibration.done)
+            app_restart(app);
+        return;
+    }
+    if (key->repeat || app->finished || !app->clock.started)
+        return;
+    calibration_tap(&app->calibration,
+                    clock_time_at(&app->clock, key->timestamp));
+}
+
 static void settings_key(App *app, SDL_Keycode key)
 {
     switch (key) {
@@ -67,11 +84,15 @@ SDL_AppResult input_handle(App *app, const SDL_Event *event)
         return SDL_APP_SUCCESS;
     if (event->type != SDL_EVENT_KEY_DOWN && event->type != SDL_EVENT_KEY_UP)
         return SDL_APP_CONTINUE;
-    play_key(app, &event->key);
+    if (app->mode == MODE_PLAY)
+        play_key(app, &event->key);
     if (event->type == SDL_EVENT_KEY_UP)
         return SDL_APP_CONTINUE;
     if (event->key.key == SDLK_ESCAPE)
         return SDL_APP_SUCCESS;
-    settings_key(app, event->key.key);
+    if (app->mode == MODE_CALIBRATE)
+        calibration_key(app, &event->key);
+    else
+        settings_key(app, event->key.key);
     return SDL_APP_CONTINUE;
 }

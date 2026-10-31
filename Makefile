@@ -4,12 +4,15 @@ SRC	= src/main.c \
 	  src/core/app.c \
 	  src/core/options.c \
 	  src/core/input.c \
+	  src/core/config.c \
 	  src/audio/music.c \
 	  src/audio/clock.c \
+	  src/audio/clicks.c \
 	  src/game/metronome.c \
 	  src/game/chart.c \
 	  src/game/judge.c \
 	  src/game/game.c \
+	  src/game/calibration.c \
 	  src/render/render.c \
 	  src/render/flash.c \
 	  src/render/hud.c \
@@ -17,7 +20,8 @@ SRC	= src/main.c \
 	  src/render/shapes.c \
 	  src/render/text.c \
 	  src/render/feedback.c \
-	  src/render/results.c
+	  src/render/results.c \
+	  src/render/calibrate_screen.c
 
 OBJ	= $(SRC:.c=.o)
 

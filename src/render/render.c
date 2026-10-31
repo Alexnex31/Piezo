@@ -1,4 +1,5 @@
 #include "render/render.h"
+#include "render/calibrate_screen.h"
 #include "render/feedback.h"
 #include "render/flash.h"
 #include "render/hud.h"
@@ -12,7 +13,10 @@ void render_frame(const App *app)
 
     SDL_SetRenderDrawColor(r, 18, 18, 26, 255);
     SDL_RenderClear(r);
-    if (app->finished) {
+    if (app->mode == MODE_CALIBRATE) {
+        /* The bare clock: calibration measures the offset, can't use it. */
+        calibrate_screen_draw(r, &app->calibration, app->clock.time);
+    } else if (app->finished) {
         results_draw(r, &app->game);
     } else {
         flash_draw(r, &app->metronome, t);
